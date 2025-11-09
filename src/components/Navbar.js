@@ -6,7 +6,7 @@ export default function Navbar(){
   return (
     <nav className="bg-white/90 backdrop-blur shadow sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold text-blue-700 hover:opacity-90 transition">consultancy.co</Link>
+        <Link to="/" className="text-2xl font-bold tracking-tight text-gray-900 hover:text-blue-700 transition">consultancy.co</Link>
 
         <button
           aria-label="Toggle menu"
@@ -18,11 +18,11 @@ export default function Navbar(){
           </svg>
         </button>
 
-        <div className="hidden md:flex items-center space-x-6 text-gray-700">
-          <NavLink to="/" end className={({isActive}) => `hover:text-blue-700 transition ${isActive ? 'text-blue-700 font-semibold' : ''}`}>Home</NavLink>
-          <NavLink to="/consultants" className={({isActive}) => `hover:text-blue-700 transition ${isActive ? 'text-blue-700 font-semibold' : ''}`}>Consultants</NavLink>
-          <NavLink to="/about" className={({isActive}) => `hover:text-blue-700 transition ${isActive ? 'text-blue-700 font-semibold' : ''}`}>About</NavLink>
-          <NavLink to="/contact" className={({isActive}) => `hover:text-blue-700 transition ${isActive ? 'text-blue-700 font-semibold' : ''}`}>Contact</NavLink>
+        <div className="hidden md:flex items-center space-x-8 text-gray-700">
+          <NavLink to="/" end className={({isActive}) => `pb-1 border-b-2 border-transparent hover:border-blue-200 hover:text-blue-700 transition ${isActive ? 'text-blue-700 font-semibold border-blue-700' : ''}`}>Home</NavLink>
+          <NavLink to="/consultants" className={({isActive}) => `pb-1 border-b-2 border-transparent hover:border-blue-200 hover:text-blue-700 transition ${isActive ? 'text-blue-700 font-semibold border-blue-700' : ''}`}>Consultants</NavLink>
+          <NavLink to="/about" className={({isActive}) => `pb-1 border-b-2 border-transparent hover:border-blue-200 hover:text-blue-700 transition ${isActive ? 'text-blue-700 font-semibold border-blue-700' : ''}`}>About</NavLink>
+          <NavLink to="/contact" className={({isActive}) => `pb-1 border-b-2 border-transparent hover:border-blue-200 hover:text-blue-700 transition ${isActive ? 'text-blue-700 font-semibold border-blue-700' : ''}`}>Contact</NavLink>
         </div>
         <div className="hidden md:flex items-center space-x-3">
           <Link to="/login" className="px-4 py-2 border rounded-lg hover:bg-blue-50 transition">Login</Link>
@@ -32,7 +32,7 @@ export default function Navbar(){
 
       {open && (
         <div className="md:hidden border-t">
-          <div className="px-6 py-3 space-y-2 text-gray-700">
+          <div className="px-6 py-3 space-y-1.5 text-gray-700">
             <NavLink to="/" end className={({isActive}) => `block px-2 py-2 rounded hover:bg-gray-50 ${isActive ? 'text-blue-700 font-semibold' : ''}`} onClick={() => setOpen(false)}>Home</NavLink>
             <NavLink to="/consultants" className={({isActive}) => `block px-2 py-2 rounded hover:bg-gray-50 ${isActive ? 'text-blue-700 font-semibold' : ''}`} onClick={() => setOpen(false)}>Consultants</NavLink>
             <NavLink to="/about" className={({isActive}) => `block px-2 py-2 rounded hover:bg-gray-50 ${isActive ? 'text-blue-700 font-semibold' : ''}`} onClick={() => setOpen(false)}>About</NavLink>

@@ -5,6 +5,7 @@ import Modal from '../components/Modal';
 
 export default function ConsultantRegistration(){
   const navigate = useNavigate();
+  const [companyVersion, setCompanyVersion] = useState(0);
   const [form, setForm] = useState({
     fullName: '',
     phone: '',
@@ -58,29 +59,42 @@ export default function ConsultantRegistration(){
     }
   }
 
-  // Companies list from localStorage
+  // Companies list from localStorage including pending with suffix
   const companyOptions = useMemo(() => {
-    const defaults = ["CGI","Infosys","Wipro","Bosch","Others"];
+    const defaults = ["CGI","Infosys","Wipro","Bosch"];
     const saved = JSON.parse(localStorage.getItem('companies') || '[]');
-    const list = saved.length ? Array.from(new Set([...saved, 'Others'])) : defaults;
-    return list;
-  }, []);
+    const pendings = JSON.parse(localStorage.getItem('pendingCompanies') || '[]');
+    const base = saved.length ? saved : defaults;
+    const pendingLabeled = pendings.map(name => `${name} (waiting for admin approval)`);
+    const combined = [...new Set([...base, ...pendingLabeled])];
+    combined.push('Others');
+    return combined;
+  }, [companyVersion]);
 
   useEffect(() => {
-    // auto select last added company if exists
-    const last = localStorage.getItem('lastAddedCompany');
-    if(last){
-      setForm(prev => ({...prev, organization: last}));
-      localStorage.removeItem('lastAddedCompany');
+    // auto select last added pending company if exists
+    const lastPending = localStorage.getItem('lastAddedCompanyPending');
+    if(lastPending){
+      setForm(prev => ({...prev, organization: `${lastPending} (waiting for admin approval)`}));
+      localStorage.removeItem('lastAddedCompanyPending');
+    } else {
+      // fallback to last normal company
+      const last = localStorage.getItem('lastAddedCompany');
+      if(last){
+        setForm(prev => ({...prev, organization: last}));
+        localStorage.removeItem('lastAddedCompany');
+      }
     }
     // listen to storage changes from other tabs
     function onStorage(ev){
-      if(ev.key === 'companies'){
-        // no state list stored, Select reads value via props; we could re-render by toggling state
-        setForm(prev => ({...prev}));
+      if(ev.key === 'companies' || ev.key === 'pendingCompanies'){
+        // bump version to recompute options
+        setCompanyVersion(v => v + 1);
       }
     }
     window.addEventListener('storage', onStorage);
+    // also bump once on mount to ensure reading latest localStorage
+    setCompanyVersion(v => v + 1);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 

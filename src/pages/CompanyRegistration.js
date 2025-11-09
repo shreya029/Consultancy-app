@@ -28,6 +28,16 @@ export default function CompanyRegistration(){
     set.add(name);
     const next = Array.from(set);
     localStorage.setItem('companies', JSON.stringify(next));
+
+    // Mark as pending approval so the other tab can show a suffix
+    const pendings = JSON.parse(localStorage.getItem('pendingCompanies') || '[]');
+    if(!pendings.includes(name)){
+      pendings.push(name);
+      localStorage.setItem('pendingCompanies', JSON.stringify(pendings));
+    }
+    // Signal last added pending for auto-select UX in the other tab
+    localStorage.setItem('lastAddedCompanyPending', name);
+
     // signal last added for convenient selection
     localStorage.setItem('lastAddedCompany', name);
     // Optional: small toast substitute
